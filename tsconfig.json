@@ -1,0 +1,26 @@
+{
+  "compilerOptions": {
+    "target": "es2017",                          
+    "module": "amd",
+    "allowJs": true, 
+    "baseUrl": "./",               
+    "outFile": "./dist",                       
+    "outDir": "./src",                        
+    "removeComments": true,                
+    "typeRoots": [
+      "./node_modules/@types",
+      "./src/@types"
+    ],               
+    "esModuleInterop": true,                  
+    "experimentalDecorators": true,        
+    "emitDecoratorMetadata": true,         
+    "skipLibCheck": true,                     
+    "forceConsistentCasingInFileNames": true  
+  },
+  "include": [
+    "src/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}
