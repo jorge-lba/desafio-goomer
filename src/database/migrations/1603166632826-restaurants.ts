@@ -17,11 +17,6 @@ export class restaurants1603166632826 implements MigrationInterface {
           name: 'name',
           type: 'varchar',
           isNullable: false
-        },
-        {
-          name: 'url_image',
-          type: 'string',
-          isNullable: false
         }
       ]
     }))
