@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "es2017",                          
-    "module": "amd",
+    "module": "commonjs",
     "allowJs": true, 
     "baseUrl": "./",               
     "outFile": "./dist",                       
@@ -16,11 +16,5 @@
     "emitDecoratorMetadata": true,         
     "skipLibCheck": true,                     
     "forceConsistentCasingInFileNames": true  
-  },
-  "include": [
-    "src/**/*.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  }
 }
