@@ -1,0 +1,9 @@
+version: '3'
+services: 
+  goomer: 
+    image: node:12.18.3
+    volumes:
+      - ./:/home/goomer
+    ports: 
+      - 3333:3333
+    command: bash -c "cd /home/goomer && npm i && npm start"
