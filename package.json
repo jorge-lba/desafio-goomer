@@ -1,0 +1,9 @@
+{
+  "name": "goomer_lista_rango",
+  "version": "0.0.1",
+  "description": "Desafio Goommer- Dev Backend: Criar uma API RESTful capaz de gerenciar os restaurantes e os produtos do seu cardaprio.",
+  "main": "server.js",
+  "repository": "https://github.com/jorge-lba/desafio-goomer",
+  "author": "Jorge Alegretti",
+  "license": "MIT"
+}
