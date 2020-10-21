@@ -39,7 +39,14 @@ describe('Restaurant', () => {
     ]
   }
 
-  it('Deve cadastrar um novo restaurante', async () => {
+  const dataTest = {...restaurantData}
+  dataTest.images = [
+    '1.jpg',
+    '2.jpeg',    
+    '3.jpg',
+  ]
+
+  it('Deve cadastrar um novo restaurante com todos os dados', async () => {
     const response = await request(app)
       .post('/restaurants')
       .accept('application/json')
@@ -60,9 +67,14 @@ describe('Restaurant', () => {
       .field('openingTime[2]', restaurantData.workingHours[2].openingTime)
       .field('closingTime[2]', restaurantData.workingHours[2].closingTime)
       .attach('images', restaurantData.images[0])
-      .attach('images', restaurantData.images[1])
-      .attach('images', restaurantData.images[2])
+
+    expect(response.body.status).toBe(201)
+
+    const restaurant = response.body.data
     
-    console.log(response.body)
+    expect(restaurant.address).toMatchObject(dataTest.address)
+    expect(restaurant.name).toBe(dataTest.name)
+    expect(restaurant.images).toEqual([...dataTest.images])
+    expect(restaurant.workingHours).toEqual([...dataTest.workingHours])
   })
 })
