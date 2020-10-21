@@ -6,4 +6,4 @@ services:
       - ./:/home/goomer
     ports: 
       - 3333:3333
-    command: bash -c "cd /home/goomer && yarn i && yarn typeorm migration:run && yarn start"
+    command: bash -c "cd /home/goomer && yarn install && yarn start"
