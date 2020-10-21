@@ -3,3 +3,4 @@ package-lock.json
 .env
 database.sqlite
 test.sqlite
+uploads

@@ -1,5 +1,8 @@
 import request from 'supertest'
-import app from '../../src/app';
+import app from '../../src/app'
+import path from 'path'
+
+jest.setTimeout(30000)
 
 describe('Restaurant', () => {
   const restaurantData = {
@@ -13,9 +16,9 @@ describe('Restaurant', () => {
       zip_code: '180.50-060'
     },
     images: [
-      '../assets/1.jpeg',
-      '../assets/2.jpeg',
-      '../assets/3.jpeg'
+      path.join(__dirname, '..', 'assets', '1.jpg'),
+      path.join(__dirname, '..', 'assets', '2.jpeg'),      
+      path.join(__dirname, '..', 'assets', '3.jpg'),
     ],
     workingHours:[
       { 
@@ -37,7 +40,7 @@ describe('Restaurant', () => {
   }
 
   it('Deve cadastrar um novo restaurante', async () => {
-    const restaurant = await request(app)
+    const response = await request(app)
       .post('/restaurants')
       .accept('application/json')
       .field('name', restaurantData.name)
@@ -47,9 +50,6 @@ describe('Restaurant', () => {
       .field('state', restaurantData.address.state)
       .field('city', restaurantData.address.city)
       .field('zip_code', restaurantData.address.zip_code)
-      .attach('image[0]', restaurantData.images[0])
-      .attach('image[1]', restaurantData.images[1])
-      .attach('image[2]', restaurantData.images[2])
       .field('weekday[0]', restaurantData.workingHours[0].weekday)
       .field('openingTime[0]', restaurantData.workingHours[0].openingTime)
       .field('closingTime[0]', restaurantData.workingHours[0].closingTime)
@@ -59,6 +59,10 @@ describe('Restaurant', () => {
       .field('weekday[2]', restaurantData.workingHours[2].weekday)
       .field('openingTime[2]', restaurantData.workingHours[2].openingTime)
       .field('closingTime[2]', restaurantData.workingHours[2].closingTime)
-      .end()
+      .attach('images', restaurantData.images[0])
+      .attach('images', restaurantData.images[1])
+      .attach('images', restaurantData.images[2])
+    
+    console.log(response.body)
   })
 })
