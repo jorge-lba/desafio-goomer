@@ -34,6 +34,7 @@ interface WorkingHours {
 
 interface Image {
   id?: number,
+  url?: string,
   path: string
 }
 
