@@ -42,6 +42,20 @@ export class address1603167201257 implements MigrationInterface {
           name: 'zip_code',
           type: 'varchar',
           isNullable: false
+        },
+        {
+          name: 'restaurant_id',
+          type: 'integer'
+        }
+      ],
+      foreignKeys: [
+        {
+          name: 'address_restaurant',
+          columnNames: ['restaurant_id'],
+          referencedTableName: 'restaurants',
+          referencedColumnNames: ['id'],
+          onUpdate: 'CASCADE',
+          onDelete: 'CASCADE'
         }
       ]
     }))

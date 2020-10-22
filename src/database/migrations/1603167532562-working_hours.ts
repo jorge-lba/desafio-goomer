@@ -14,9 +14,8 @@ export class workingHours1603167532562 implements MigrationInterface {
           generationStrategy: 'increment'
         },
         {
-          name: 'id_restaurants',
-          type: 'integer',
-          isNullable: false
+          name: 'restaurant_id',
+          type: 'integer'
         },
         {
           name: 'weekday',
@@ -32,6 +31,16 @@ export class workingHours1603167532562 implements MigrationInterface {
           name: 'closing_time',
           type: 'time',
           isNullable: false
+        }
+      ],
+      foreignKeys: [
+        {
+          name: 'working_restaurant',
+          columnNames: ['restaurant_id'],
+          referencedTableName: 'restaurants',
+          referencedColumnNames: ['id'],
+          onUpdate: 'CASCADE',
+          onDelete: 'CASCADE'
         }
       ]
     }))
