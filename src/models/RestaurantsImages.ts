@@ -3,7 +3,6 @@ import Restaurant from './Restaurant'
 
 @Entity('restaurants_images')
 export default class RestaurantImages {
-  
   @PrimaryGeneratedColumn('increment')
   id: number
 
@@ -11,6 +10,6 @@ export default class RestaurantImages {
   path: string
 
   @ManyToOne(() => Restaurant, restaurant => restaurant.images)
-  @JoinColumn({name: 'restaurant_id'})
+  @JoinColumn({ name: 'restaurant_id' })
   restaurant: Restaurant
 }

@@ -1,9 +1,9 @@
+/* eslint-disable camelcase */
 import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm'
 import Restaurant from './Restaurant'
 
 @Entity('address')
 export default class RestaurantAddress {
-  
   @PrimaryGeneratedColumn('increment')
   id: number
 
@@ -11,7 +11,7 @@ export default class RestaurantAddress {
   street: string
 
   @Column()
-  number: number
+  number: string
 
   @Column()
   complement: string
@@ -26,6 +26,6 @@ export default class RestaurantAddress {
   zip_code: string
 
   @OneToOne(() => Restaurant, restaurant => restaurant.address)
-  @JoinColumn({name: 'restaurant_id'})
+  @JoinColumn({ name: 'restaurant_id' })
   restaurant: Restaurant
 }
