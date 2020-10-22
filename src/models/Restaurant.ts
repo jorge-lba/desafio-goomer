@@ -15,7 +15,6 @@ export default class Restaurant {
   @OneToOne(() => RestaurantAddress, address => address.restaurant, {
     cascade:['insert', 'update']
   })
-  @JoinColumn({name: 'restaurant_id'})
   address: RestaurantAddress
 
   @OneToMany(() => RestaurantImages, images => images.restaurant,{

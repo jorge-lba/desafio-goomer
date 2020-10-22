@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm'
 import Restaurant from './Restaurant'
 
-@Entity('restaurants')
+@Entity('working_hours')
 export default class RestaurantWorkingHours {
   
   @PrimaryGeneratedColumn('increment')

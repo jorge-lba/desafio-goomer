@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm'
 import Restaurant from './Restaurant'
 
-@Entity('restaurants')
+@Entity('address')
 export default class RestaurantAddress {
   
   @PrimaryGeneratedColumn('increment')
@@ -14,7 +14,7 @@ export default class RestaurantAddress {
   number: number
 
   @Column()
-  name: string
+  complement: string
 
   @Column()
   state: string
