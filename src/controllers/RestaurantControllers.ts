@@ -3,54 +3,16 @@
 import { Request, Response, Express } from 'express'
 import { getRepository } from 'typeorm'
 import Restaurant from '../models/Restaurant'
+import restaurantView from '../views/restaurantView'
 
-interface RequestBody {
-  name: string,
-  street: string,
-  number: number,
-  complement:string,
-  state: string,
-  city:string,
-  zip_code: string,
-  weekdays_start:string[],
-  weekdays_end: string[],
-  opening_times:string[],
-  closing_times:string[]
-}
-
-interface Address {
-  street: string,
-  number: number,
-  complement:string,
-  state: string,
-  city:string,
-  zip_code: string
-}
-
-interface WorkingHours {
-  weekday_start:string,
-  weekday_end: string,
-  opening_time:string,
-  closing_time:string,
-}
-
-interface Image {
-  path: string
-}
-
-interface DataRestaurant {
-  name:string,
-  address?: Address,
-  working_hours?:WorkingHours[]
-  images?:Image[],
-}
-
-interface WorkingHoursRequest {
-  weekdays_start:string[],
-  weekdays_end: string[],
-  opening_times:string[],
-  closing_times:string[],
-}
+import {
+  RequestBody,
+  Address,
+  WorkingHours,
+  Image,
+  DataRestaurant,
+  WorkingHoursRequest
+} from '../@types/TypesRestaurant'
 
 const formatWorkHours = (weekdaysStart:WorkingHoursRequest):WorkingHours[]|undefined =>
   weekdaysStart.weekdays_start
@@ -120,7 +82,7 @@ export default {
 
       return response.status(201).json({
         status: 201,
-        data: restaurant
+        data: restaurantView.render(restaurant)
       })
     } catch (error) {
       console.log(error)
