@@ -196,5 +196,18 @@ export default {
         error
       })
     }
+  },
+
+  async delete (request:Request, response:Response) {
+    const { id } = request.params
+
+    const restaurantsRespository = getRepository<DataRestaurant>(Restaurant)
+
+    await restaurantsRespository.delete(id)
+
+    return response.status(200).json({
+      status: 200,
+      message: `Restaurante de ID ${id} foi excluído`
+    })
   }
 }
