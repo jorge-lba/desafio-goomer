@@ -14,17 +14,38 @@ export class promotionsHours1603485286185 implements MigrationInterface {
           generationStrategy: 'increment'
         },
         {
-          name: 'description',
-          type: 'string'
+          name: 'promotion_id',
+          type: 'integer'
         },
         {
-          name: 'price',
-          type: 'number',
+          name: '',
+          type: 'integer',
           isNullable: false
         },
         {
-          name: 'promotion_id',
-          type: 'integer'
+          name: 'weekday_start',
+          type: 'integer',
+          isNullable: false
+        },
+        {
+          name: 'weekday_end',
+          type: 'integer',
+          isNullable: false
+        },
+        {
+          name: 'opening_time',
+          type: 'string',
+          isNullable: false
+        },
+        {
+          name: 'closing_time',
+          type: 'string',
+          isNullable: false
+        },
+        {
+          name: 'valid',
+          type: 'boolean',
+          isNullable: false
         }
       ],
       foreignKeys: [
