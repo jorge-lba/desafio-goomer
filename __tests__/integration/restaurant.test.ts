@@ -110,4 +110,20 @@ describe('Restaurant', () => {
     expect(responseImages).toEqual(dataTest.images)
     expect(restaurant.working_hours).toEqual(dataTest.workingHours)
   })
+
+  it('Deve listar os restaurantes', async () => {
+    const response = await request(app)
+      .get('/restaurants')
+
+    const [restaurant] = response.body.data
+
+    expect(response.body.status).toBe(200)
+
+    const responseImages = restaurant.images.map((image:Image) => image.url?.split('-')[1])
+
+    expect(restaurant.address).toMatchObject(dataTest.address)
+    expect(restaurant.name).toBe(dataTest.name)
+    expect(responseImages).toEqual(dataTest.images)
+    expect(restaurant.working_hours).toEqual(dataTest.workingHours)
+  })
 })
