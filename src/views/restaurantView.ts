@@ -6,6 +6,8 @@ export default {
   render (restaurant: DataRestaurant) {
     const working_hours = restaurant.working_hours
 
+    const weekday = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
+
     const formatHours = (hours:string) => {
       const [hour, minute] = hours.split(':')
 
@@ -20,7 +22,7 @@ export default {
         closing_time
       } = current
 
-      acc += `${weekday_start} à ${weekday_end} das ${formatHours(opening_time)} as ${formatHours(closing_time)}`
+      acc += `${weekday[weekday_start]} à ${weekday[weekday_end]} das ${formatHours(opening_time)} as ${formatHours(closing_time)}`
 
       if (index + 1 < array.length) {
         acc += ' e de '
