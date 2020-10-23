@@ -32,6 +32,7 @@ export default {
     }, 'De ')
 
     return {
+      id: restaurant.id,
       name: restaurant.name,
       address: restaurant.address,
       working_hours: restaurant.working_hours,
