@@ -8,8 +8,8 @@ interface RequestBody {
   state: string,
   city:string,
   zip_code: string,
-  weekdays_start:string[],
-  weekdays_end: string[],
+  weekdays_start:number[],
+  weekdays_end: number[],
   opening_times:string[],
   closing_times:string[]
 }
@@ -26,8 +26,8 @@ interface Address {
 
 interface WorkingHours {
   id?: number,
-  weekday_start:string,
-  weekday_end: string,
+  weekday_start:number,
+  weekday_end: number,
   opening_time:string,
   closing_time:string,
 }
@@ -47,8 +47,8 @@ interface DataRestaurant {
 }
 
 interface WorkingHoursRequest {
-  weekdays_start:string[],
-  weekdays_end: string[],
+  weekdays_start:number[],
+  weekdays_end: number[],
   opening_times:string[],
   closing_times:string[],
 }

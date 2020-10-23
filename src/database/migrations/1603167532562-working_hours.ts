@@ -19,12 +19,12 @@ export class workingHours1603167532562 implements MigrationInterface {
         },
         {
           name: 'weekday_start',
-          type: 'string',
+          type: 'integer',
           isNullable: false
         },
         {
           name: 'weekday_end',
-          type: 'string',
+          type: 'integer',
           isNullable: false
         },
         {

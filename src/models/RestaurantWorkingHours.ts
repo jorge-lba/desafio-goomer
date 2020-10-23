@@ -8,10 +8,10 @@ export default class RestaurantWorkingHours {
   id: number
 
   @Column()
-  weekday_start: string
+  weekday_start: number
 
   @Column()
-  weekday_end: string
+  weekday_end: number
 
   @Column()
   opening_time: string
