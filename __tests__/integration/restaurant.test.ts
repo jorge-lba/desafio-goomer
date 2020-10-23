@@ -182,4 +182,12 @@ describe('Restaurant', () => {
     expect(restaurant.address.street).toBe(dataRestaurantUpdate.address.street)
     expect(restaurant.working_hours).toEqual(dataRestaurantUpdate.working_hours)
   })
+
+  it('Deve deletar um restaurante', async () => {
+    const response = await request(app)
+      .delete('/restaurants/1')
+
+    expect(response.body.status).toBe(200)
+    expect(response.body.message).toBe('Restaurante de ID 1 foi excluído')
+  })
 })
