@@ -14,5 +14,6 @@ routes.get('/', (req, res) => {
 routes.get('/restaurants', RestaurantControllers.index)
 routes.get('/restaurants/:id', RestaurantControllers.show)
 routes.post('/restaurants', upload.array('images'), RestaurantControllers.create)
+routes.put('/restaurants/:id', RestaurantControllers.update)
 
 export default routes

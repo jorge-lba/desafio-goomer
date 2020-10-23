@@ -19,6 +19,9 @@ export default class RestaurantWorkingHours {
   @Column()
   closing_time: string
 
+  @Column()
+  restaurant_id: number
+
   @ManyToOne(() => Restaurant, restaurant => restaurant.working_hours)
   @JoinColumn({ name: 'restaurant_id' })
   restaurant: Restaurant
