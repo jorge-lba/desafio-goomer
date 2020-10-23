@@ -46,6 +46,21 @@ export default {
     })
   },
 
+  async show (request:Request, response:Response) {
+    const { id } = request.params
+
+    const restaurantsRespository = getRepository<DataRestaurant>(Restaurant)
+
+    const restaurant = await restaurantsRespository.findOneOrFail(id, {
+      relations: ['images', 'address', 'working_hours']
+    })
+
+    return response.status(200).json({
+      status: 200,
+      data: restaurantView.render(restaurant)
+    })
+  },
+
   async create (request: Request, response: Response) {
     try {
       const {
