@@ -33,6 +33,19 @@ const formatImages = (images: Express.Multer.File[]): Image[]|undefined =>
     : undefined
 
 export default {
+  async index (request:Request, response:Response) {
+    const restaurantsRespository = getRepository<DataRestaurant>(Restaurant)
+
+    const restaurants = await restaurantsRespository.find({
+      relations: ['images', 'address', 'working_hours']
+    })
+
+    return response.status(200).json({
+      status: 200,
+      data: restaurantView.renderMany(restaurants)
+    })
+  },
+
   async create (request: Request, response: Response) {
     try {
       const {
