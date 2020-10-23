@@ -54,6 +54,7 @@ describe('Restaurant', () => {
     workingHours: [
       {
         id: 1,
+        restaurant_id: 1,
         weekday_start: 'segunda',
         weekday_end: 'sexta',
         opening_time: '11:30',
@@ -61,6 +62,7 @@ describe('Restaurant', () => {
       },
       {
         id: 2,
+        restaurant_id: 1,
         weekday_start: 'sábado',
         weekday_end: 'domingo',
         opening_time: '15:30',
@@ -141,5 +143,43 @@ describe('Restaurant', () => {
     expect(restaurant.name).toBe(dataTest.name)
     expect(responseImages).toEqual(dataTest.images)
     expect(restaurant.working_hours).toEqual(dataTest.workingHours)
+  })
+
+  it('Deve atualizar os dados de um restaurante', async () => {
+    const dataRestaurantUpdate = {
+      name: 'Mr. Burger',
+      address: {
+        street: 'Ruas Burger'
+      },
+      working_hours: [
+        {
+          id: 1,
+          restaurant_id: 1,
+          weekday_start: 2,
+          weekday_end: 4,
+          opening_time: '11:00',
+          closing_time: '21:00'
+        },
+        {
+          id: 2,
+          restaurant_id: 1,
+          weekday_start: 6,
+          weekday_end: 0,
+          opening_time: '14:00',
+          closing_time: '22:00'
+        }]
+    }
+
+    const response = await request(app)
+      .put('/restaurants/1')
+      .send(dataRestaurantUpdate)
+
+    const restaurant = response.body.data
+
+    expect(response.body.status).toBe(200)
+
+    expect(restaurant.name).toBe(dataRestaurantUpdate.name)
+    expect(restaurant.address.street).toBe(dataRestaurantUpdate.address.street)
+    expect(restaurant.working_hours).toEqual(dataRestaurantUpdate.working_hours)
   })
 })
