@@ -45,13 +45,13 @@ export default {
   async index (request:Request, response:Response) {
     const productsRespository = getRepository<DataProduct>(Product)
 
-    const products = await productsRespository.find({
-      relations: ['products_promotions', 'products_images']
-    })
+    const products = await productsRespository.find()
+
+    const products_relations = await relations(products)
 
     return response.status(200).json({
       status: 200,
-      data: productView.renderMany(products)
+      data: productView.renderMany(products_relations)
     })
   },
 
@@ -118,6 +118,19 @@ export default {
     return response.status(201).json({
       status: 201,
       data: productView.render(product)
+    })
+  },
+
+  async delete (request:Request, response:Response) {
+    const { id } = request.params
+
+    const ProductsRespository = getRepository<DataProduct>(Product)
+
+    await ProductsRespository.delete(id)
+
+    return response.status(200).json({
+      status: 200,
+      message: `Produto de ID ${id} foi excluído`
     })
   }
 }
