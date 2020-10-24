@@ -13,7 +13,7 @@ export default class ProductImages {
   @Column()
   product_id: number
 
-  @ManyToOne(() => Product, product => product.images)
+  @ManyToOne(() => Product, product => product.product_images)
   @JoinColumn({ name: 'product_id' })
   product: Product
 }

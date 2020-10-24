@@ -3,6 +3,7 @@ import { Entity, Column, PrimaryGeneratedColumn, OneToOne, JoinColumn, OneToMany
 import RestaurantAddress from './RestaurantAddress'
 import RestaurantImages from './RestaurantsImages'
 import RestaurantWorkingHours from './RestaurantWorkingHours'
+import Product from './Product'
 
 @Entity('restaurants')
 export default class Restaurant {
@@ -28,4 +29,10 @@ export default class Restaurant {
   })
   @JoinColumn({ name: 'restaurant_id' })
   working_hours: RestaurantWorkingHours[]
+
+  @OneToMany(() => Product, product => product.restaurant, {
+    cascade: ['insert', 'update']
+  })
+  // @JoinColumn({ name: 'restaurant_id' })
+  products: Product[]
 }
