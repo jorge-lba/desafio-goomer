@@ -7,3 +7,5 @@ services:
     ports: 
       - 3333:3333
     command: bash -c "cd /home/goomer && yarn install && yarn start"
+    network_mode: host
+    
