@@ -53,14 +53,23 @@ export default {
 
     const restaurantsRespository = getRepository<DataRestaurant>(Restaurant)
 
-    const restaurant = await restaurantsRespository.findOneOrFail(id, {
-      relations: ['images', 'address', 'working_hours']
-    })
+    try {
+      const restaurant = await restaurantsRespository.findOneOrFail(id, {
+        relations: ['images', 'address', 'working_hours']
+      })
 
-    return response.status(200).json({
-      status: 200,
-      data: restaurantView.render(restaurant)
-    })
+      return response.status(200).json({
+        status: 200,
+        data: restaurant instanceof Restaurant
+          ? restaurantView.render(restaurant)
+          : {}
+      })
+    } catch (error) {
+      return response.status(200).json({
+        status: 200,
+        data: {}
+      })
+    }
   },
 
   async create (request: Request, response: Response) {
