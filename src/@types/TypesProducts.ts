@@ -14,6 +14,7 @@ interface ProductRequestBody {
 }
 
 interface Promotion {
+  id?: number,
   price: number,
   description: string,
   weekday_start: number,
@@ -31,7 +32,7 @@ interface Image {
 
 interface DataProduct {
   id?: number,
-  restaurant_id: number,
+  restaurant_id?: number,
   name: string,
   price: number,
   description: string,

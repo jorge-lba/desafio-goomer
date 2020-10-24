@@ -122,7 +122,65 @@ export default {
   },
 
   async update (request: Request, response: Response) {
+    const dataProduct: DataProduct = request.body
+    const id = request.params.id
 
+    const tables:string[] = Object.keys(dataProduct)
+
+    const optionsTable = (option:string | null, dataProduct:DataProduct) => {
+      const index = option === 'promotions' ? 1 : 0
+      const options = [
+        {
+          id: dataProduct.id,
+          repositoryCall: () => getRepository<DataProduct>(Product),
+          data: {
+            name: dataProduct.name,
+            price: dataProduct.price,
+            description: dataProduct.description
+          }
+        },
+        {
+          id: dataProduct.promotions?.map(({ id }) => id),
+          repositoryCall: () => getRepository<Promotion>(ProductPromotion),
+          data: dataProduct.promotions?.map(promotion => promotion)
+        }
+      ]
+      return options[index]
+    }
+
+    for (let i = 0; i < tables.length; i++) {
+      const option = tables[i] ? tables[i] : null
+
+      const { repositoryCall, data, id: idData } = optionsTable(option, dataProduct)
+
+      if (idData instanceof Array && data instanceof Array) {
+        const repository = repositoryCall()
+
+        for (let i = 0; i < idData.length; i++) {
+          // @ts-ignore
+          const { product_id } = await repository.findOneOrFail(idData[i])
+
+          if (product_id === parseInt(id)) {
+            await repository.update({ id: idData[i] }, data[i])
+          }
+        }
+      } else {
+        const ID = (idData instanceof Array ? idData[0] : idData) || parseInt(id)
+        const DATA = data instanceof Array ? data[0] : data
+
+        const repository = repositoryCall()
+        // @ts-ignore
+        await repository.update({ id: ID }, DATA)
+      }
+    }
+    const productsRespository = getRepository<DataProduct>(Product)
+    const product = await productsRespository.findOneOrFail(id)
+    const [products_relation] = await relations([product])
+
+    return response.status(200).json({
+      status: 200,
+      data: productView.render(products_relation)
+    })
   },
 
   async delete (request:Request, response:Response) {
