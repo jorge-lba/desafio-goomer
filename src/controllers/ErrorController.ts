@@ -17,7 +17,7 @@ export default {
     const error = await errorRepository.create({
       message,
       error: name,
-      query,
+      query: query || 'Empty',
       parameters: request,
       date: new Date()
     })
