@@ -19,5 +19,7 @@ routes.put('/restaurants/:id', RestaurantControllers.update)
 routes.delete('/restaurants/:id', RestaurantControllers.delete)
 
 routes.post('/restaurants/:id/products', upload.array('images'), ProductControllers.create)
+routes.get('/restaurants/:id/products', ProductControllers.show)
+routes.get('/products', ProductControllers.index)
 
 export default routes

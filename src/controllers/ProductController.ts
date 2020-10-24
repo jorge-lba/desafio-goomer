@@ -2,6 +2,8 @@
 import { Request, Response, Express } from 'express'
 import { getRepository } from 'typeorm'
 import Product from '../models/Product'
+import ProductPromotion from '../models/ProductPromotion'
+import ProductImage from '../models/ProductImages'
 import productView from '../views/productView'
 import {
   ProductRequestBody,
@@ -17,7 +19,58 @@ const formatImages = (images: Express.Multer.File[]): Image[]|undefined =>
     }))
     : undefined
 
+const relations = async (products: DataProduct[]) => {
+  const productPromotionsRespository = getRepository<Promotion>(ProductPromotion)
+  const productImagesRespository = getRepository<Image>(ProductImage)
+
+  const products_promotions:DataProduct[] = []
+
+  for (const product of products) {
+    const promotions = await productPromotionsRespository.find({
+      // @ts-ignore
+      product_id: product.id
+    })
+
+    const images = await productImagesRespository.find({
+      // @ts-ignore
+      product_id: product.id
+    })
+    products_promotions.push({ ...product, promotions, product_images: images })
+  }
+
+  return products_promotions
+}
+
 export default {
+  async index (request:Request, response:Response) {
+    const productsRespository = getRepository<DataProduct>(Product)
+
+    const products = await productsRespository.find({
+      relations: ['products_promotions', 'products_images']
+    })
+
+    return response.status(200).json({
+      status: 200,
+      data: productView.renderMany(products)
+    })
+  },
+
+  async show (request:Request, response:Response) {
+    const { id } = request.params
+
+    const productsRespository = getRepository<DataProduct>(Product)
+
+    // @ts-ignore
+    const products = await productsRespository.find({ restaurant_id: id })
+
+    const products_relations = await relations(products)
+
+    return response.status(200).json({
+      status: 200,
+      data: productView.renderMany(products_relations)
+    })
+  },
+
   async create (request: Request, response: Response) {
     const restaurant_id = parseInt(request.params.id)
     const {

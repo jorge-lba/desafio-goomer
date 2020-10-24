@@ -33,6 +33,6 @@ export default class Restaurant {
   @OneToMany(() => Product, product => product.restaurant, {
     cascade: ['insert', 'update']
   })
-  // @JoinColumn({ name: 'restaurant_id' })
+  @JoinColumn({ name: 'restaurant_id' })
   products: Product[]
 }
