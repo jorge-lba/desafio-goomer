@@ -25,6 +25,26 @@ export class productsPromotions1603485111665 implements MigrationInterface {
         {
           name: 'product_id',
           type: 'integer'
+        },
+        {
+          name: 'weekday_start',
+          type: 'integer'
+        },
+        {
+          name: 'weekday_end',
+          type: 'integer'
+        },
+        {
+          name: 'time_start',
+          type: 'string'
+        },
+        {
+          name: 'time_end',
+          type: 'string'
+        },
+        {
+          name: 'valid',
+          type: 'boolean'
         }
       ],
       foreignKeys: [
