@@ -10,6 +10,7 @@ export default {
       price: product.price,
       description: product.description,
       promotions: product.promotions,
+      restaurant_id: product.restaurant_id,
       product_images: imagesView.renderMany(product.product_images)
     }
   },
