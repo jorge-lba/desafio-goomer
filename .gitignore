@@ -4,3 +4,4 @@ package-lock.json
 database.sqlite
 test.sqlite
 uploads
+uploads_test

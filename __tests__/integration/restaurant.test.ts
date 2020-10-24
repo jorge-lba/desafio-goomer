@@ -20,7 +20,7 @@ beforeAll(async () => {
 })
 
 afterAll(async () => {
-  const directory = path.join(__dirname, '..', '..', 'uploads')
+  const directory = path.join(__dirname, '..', '..', 'uploads_test')
 
   await getConnection().close()
 
