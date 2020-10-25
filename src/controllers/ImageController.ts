@@ -96,13 +96,9 @@ export default {
       id: imageId
     })
 
-    const file = path.join(__dirname, '..', '..', 'uploads', imageFind.path)
+    const file = path.join(__dirname, '..', '..', 'uploads', option, imageFind.path)
 
-    try {
-      await fs.unlinkSync(file)
-    } catch (err) {
-      console.error(err)
-    }
+    await fs.unlinkSync(file)
 
     await imageRepository.update({ id: imageId }, dataImage)
 
@@ -115,6 +111,31 @@ export default {
     return response.status(201).json({
       status: 201,
       data: imagesView.render(image)
+    })
+  },
+
+  async delete (request:Request, response:Response) {
+    const id = parseInt(request.params.id)
+    const imageId = parseInt(request.params.imageId)
+
+    const option = request.url.split('/')[2] || 'restaurants'
+
+    const imageRepository = selectRepositoryImage(option)
+
+    const imageFind = await imageRepository.findOneOrFail({
+      [`${option.substring(0, option.length - 1)}_id`]: id,
+      id: imageId
+    })
+
+    const file = path.join(__dirname, '..', '..', 'uploads', option, imageFind.path)
+
+    await fs.unlinkSync(file)
+
+    await imageRepository.delete({ id: imageId })
+
+    return response.status(201).json({
+      status: 201,
+      message: `Imagem de ID ${id} foi excluído`
     })
   }
 }
