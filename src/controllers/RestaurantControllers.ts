@@ -19,12 +19,41 @@ import RestaurantWorkingHours from '../models/RestaurantWorkingHours'
 const formatWorkHours = (weekdaysStart:WorkingHoursRequest):WorkingHours[]|undefined =>
   weekdaysStart.weekdays_start
     ? weekdaysStart.weekdays_start
-      .map((weekday, index) => ({
-        weekday_start: weekday,
-        weekday_end: weekdaysStart.weekdays_end[index],
-        opening_time: weekdaysStart.opening_times[index],
-        closing_time: weekdaysStart.closing_times[index]
-      }))
+      .map((weekday, index) => {
+        let start_time = weekdaysStart.opening_times[index]
+        let end_time = weekdaysStart.closing_times[index]
+
+        const [start_hours, start_minutes] = start_time
+          .split(':').map(element => parseInt(element))
+
+        const [end_hours, end_minutes] = end_time
+          .split(':').map(element => parseInt(element))
+
+        let start = new Date()
+        start.setHours(start_hours, start_minutes)
+
+        let end = new Date()
+        end.setHours(end_hours, end_minutes)
+
+        if (start.getTime() > end.getTime()) {
+          [start, end] = [end, start];
+          [start_time, end_time] = [end_time, start_time]
+        }
+
+        const difference = (end.getTime() - start.getTime()) / 1000 / 60
+
+        if (difference < 15) {
+          end.setMinutes(end.getMinutes() + (15 - difference))
+          end_time = `${end.getHours()}:${end.getMinutes()}`
+        }
+
+        return {
+          weekday_start: weekday,
+          weekday_end: weekdaysStart.weekdays_end[index],
+          opening_time: start_time,
+          closing_time: end_time
+        }
+      })
     : undefined
 
 const formatImages = (images: Express.Multer.File[]): Image[]|undefined =>
@@ -133,7 +162,6 @@ export default {
 
     const optionsTable = (option:string, dataRestaurant:DataRestaurant) => {
       const index = ['name', 'address', 'working_hours'].indexOf(option)
-
       const options = [
         {
           id: dataRestaurant.id,
@@ -146,9 +174,9 @@ export default {
           data: dataRestaurant.address
         },
         {
-          id: dataRestaurant.working_hours.map(({ id }) => id),
+          id: dataRestaurant.working_hours?.map(({ id }) => id),
           repositoryCall: () => getRepository<WorkingHours>(RestaurantWorkingHours),
-          data: dataRestaurant.working_hours.map(working_hours => working_hours)
+          data: dataRestaurant.working_hours?.map(working_hours => working_hours)
         }
       ]
 

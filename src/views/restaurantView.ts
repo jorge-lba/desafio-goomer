@@ -9,6 +9,8 @@ export default {
     const weekday = ['Domingo', 'Segunda', 'Terça', 'Quarta', 'Quinta', 'Sexta', 'Sábado']
 
     const formatHours = (hours:string) => {
+      hours = hours.toString()
+      if (!hours.indexOf(':')) hours += ':00'
       const [hour, minute] = hours.split(':')
 
       return minute !== '00' ? `${hour}h${minute}` : `${hour}h`
