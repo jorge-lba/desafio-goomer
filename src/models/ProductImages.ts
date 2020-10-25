@@ -1,5 +1,5 @@
 /* eslint-disable camelcase */
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm'
+import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column } from 'typeorm'
 import Product from './Product'
 
 @Entity('products_images')

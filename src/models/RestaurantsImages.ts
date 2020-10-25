@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm'
+/* eslint-disable camelcase */
+import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, Column } from 'typeorm'
 import Restaurant from './Restaurant'
 
 @Entity('restaurants_images')
@@ -8,6 +9,9 @@ export default class RestaurantImages {
 
   @Column()
   path: string
+
+  @Column()
+  restaurant_id: number
 
   @ManyToOne(() => Restaurant, restaurant => restaurant.images)
   @JoinColumn({ name: 'restaurant_id' })

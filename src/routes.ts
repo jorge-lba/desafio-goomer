@@ -9,8 +9,13 @@ import ImageControllers from './controllers/ImageController'
 const routes = Router()
 const upload = multer(uploadConfig)
 
-routes.post('/images/restaurant/:id', upload.array('images'), ImageControllers.create)
-routes.post('/images/product/:id', upload.array('images'), ImageControllers.create)
+routes.post('/images/restaurants/:id', upload.array('images'), ImageControllers.create)
+routes.get('/images/restaurants', ImageControllers.index)
+routes.get('/images/restaurants/:id', ImageControllers.show)
+
+routes.post('/images/products/:id', upload.array('images'), ImageControllers.create)
+routes.get('/images/products', ImageControllers.index)
+routes.get('/images/products/:id', ImageControllers.show)
 
 routes.get('/restaurants', RestaurantControllers.index)
 routes.get('/restaurants/:id', RestaurantControllers.show)
