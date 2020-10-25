@@ -4,13 +4,13 @@ import multer from 'multer'
 import uploadConfig from './config/upload'
 import RestaurantControllers from './controllers/RestaurantControllers'
 import ProductControllers from './controllers/ProductController'
+import ImageControllers from './controllers/ImageController'
 
 const routes = Router()
 const upload = multer(uploadConfig)
 
-routes.get('/', (req, res) => {
-  return res.json({ status: 201 })
-})
+routes.post('/images/restaurant/:id', upload.array('images'), ImageControllers.create)
+routes.post('/images/product/:id', upload.array('images'), ImageControllers.create)
 
 routes.get('/restaurants', RestaurantControllers.index)
 routes.get('/restaurants/:id', RestaurantControllers.show)
