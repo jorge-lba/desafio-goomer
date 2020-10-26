@@ -11,7 +11,7 @@ Criar uma API RESTful capaz de gerências os restaurantes e os produtos do seu c
     - [**yarn**](#yarn)
     - [**npm**](#npm)
     - [**docker-compose**](#docker-compose)
-  - [**Requisições**](#requisições)
+  - [**Exempos de Requisições**](#exemplos-de-requisições)
     - [**Restaurante**](#restaurante)
       - [**Criar**](#criar)
       - [**Listar Todos**](#listar-todos)
@@ -37,11 +37,7 @@ Criar uma API RESTful capaz de gerências os restaurantes e os produtos do seu c
       - [**Atualizar Dados**](#atualizar-dados___)
       - [**Excluir**](#excluir___)
     - [**Desafios/Problemas**](#desafios-problemas)
-    
-    
-
-
-
+    - [**Melhorias**](#melhorias)
 ---
 
 ## Iniciando
@@ -86,7 +82,7 @@ docker-compose run goomer
 ```
 ---
 
-### Requisições 
+### Exemplos de Requisições 
 #### Restaurante
 ##### Criar
 ```sh
@@ -321,3 +317,12 @@ curl --request DELETE \
 
   * __Tabela de Horários de Funcionamento :__
     - Inicialmente optei por usar campos do tipo Date para cadastrar os horários de abertura e fechamento do estabelecimento, mas fazendo desta forma eu teria que usar mais recursos para fazer a comparação e depois o tratamento para apresentar os horários como foi dado o exemplo. Optei usar o campo com _string_ tornando mais fácil o tratamento(ao colocar em pratica percebi que não foi a melhor escolha[ ** ](#)).
+
+### Melhorias
+
+- [ ] Revisão da funcionalidade que trata os horários de funcionamento e promoções.
+- [ ] Adicionar validação dos Dados.
+- [ ] Adicionar tratamento dos erros.
+- [ ] Revisar códigos duplicados e separar em funções reutilizáveis.
+- [ ] Revisar os tipos dos dados utilizados nas migrations.
+- [ ] Avaliar se os nomes das variáveis e funções estão coerentes.
