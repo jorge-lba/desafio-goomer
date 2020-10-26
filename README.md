@@ -10,7 +10,6 @@ Criar uma API RESTful capaz de gerências os restaurantes e os produtos do seu c
   - [**Executar Projeto**](#executar)
     - [**yarn**](#yarn)
     - [**npm**](#npm)
-    - [**docker-compose**](#docker-compose)
   - [**Exempos de Requisições**](#exemplos-de-requisições)
     - [**Restaurante**](#restaurante)
       - [**Criar**](#criar)
@@ -36,6 +35,7 @@ Criar uma API RESTful capaz de gerências os restaurantes e os produtos do seu c
       - [**Retornar um Especifico**](#retornar-um-especifico___)
       - [**Atualizar Dados**](#atualizar-dados___)
       - [**Excluir**](#excluir___)
+    - [**Insomnia**](#insomnia)
     - [**Desafios/Problemas**](#desafios-problemas)
     - [**Melhorias**](#melhorias)
 ---
@@ -74,11 +74,6 @@ npm test
 
 # Iniciando Servidor
 npm start
-```
-##### Docker-Compose
-```sh
-# Rodando o Projeto (Verifique se está na pasta desafio-goomer)
-docker-compose run goomer
 ```
 ---
 
@@ -271,7 +266,7 @@ curl --request DELETE \
 curl --request POST \
   --url http://localhost:3333/images/products/1 \
   --header 'content-type: multipart/form-data' \
-  --form 'images=@'$(pwd)'/__tests__/assets/prato_01.jpeg'
+  --form 'images=@'$(pwd)'/__tests__/assets/prato_01.jpg'
 ```
 ##### Listar Todos___
 ```sh
@@ -291,7 +286,7 @@ curl --request GET \
 curl --request PUT \
   --url http://localhost:3333/images/products/1/1 \
   --header 'content-type: multipart/form-data' \
-    --form 'images=@'$(pwd)'/__tests__/assets/prato_02.jpeg.jpg'
+    --form 'images=@'$(pwd)'/__tests__/assets/prato_02.jpeg'
 ```
 ##### Excluir___
 ```sh
@@ -302,8 +297,10 @@ curl --request PUT \
 curl --request DELETE \
   --url http://localhost:3333/images/products/1/1
 ```
-
-
+---
+### Insomnia
+Para executar os testes usando o Insomnia entre [aqui](https://github.com/jorge-lba/desafio-goomer/tree/main/insomnia) e use o arquivo para importar as configurações.
+Você também pode utilizar o arquivo que foi baixado junto ao projeto.
 ---
 
 ### Desafios / Problemas
