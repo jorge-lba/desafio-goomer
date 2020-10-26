@@ -167,7 +167,7 @@ curl --request POST \
   --header 'content-type: multipart/form-data' \
   --form 'name=Filé de salmão da Tasmânia' \
   --form 'price=65.00' \
-  --form 'description=Receita do chef executivo Mohammad Taheri' \
+  --form 'category=Receita do chef executivo Mohammad Taheri' \
   --form 'promotion_prices[0]=49.99' \
   --form 'promotion_descriptions[0]=Lançamento' \
   --form 'weekdays_start[0]=6' \
@@ -198,7 +198,7 @@ curl --request PUT \
   --data '{
       "name": "Filé de salmão da Tasmânia com purê de cenoura holandês",
       "price": 69.99,
-      "description": "Receita do chef executivo Mohammad Taheri, do InterContinental Sydney Double Bay.",
+      "category": "Receita do chef executivo Mohammad Taheri, do InterContinental Sydney Double Bay.",
       "promotions": [
         {
 					"id":1,
@@ -326,3 +326,4 @@ curl --request DELETE \
 - [ ] Revisar códigos duplicados e separar em funções reutilizáveis.
 - [ ] Revisar os tipos dos dados utilizados nas migrations.
 - [ ] Avaliar se os nomes das variáveis e funções estão coerentes.
+- [ ] Revisar tipos das variáveis e funções. 
