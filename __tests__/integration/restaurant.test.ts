@@ -1,7 +1,7 @@
 import request from 'supertest'
 import app from '../../src/app'
 import path from 'path'
-import fs from 'fs'
+import del from 'del'
 import { createConnection, getConnection } from 'typeorm'
 import { Image } from '../../src/@types/TypesRestaurant'
 import { ProductRequestBody } from '../../src/@types/TypesProducts'
@@ -24,15 +24,7 @@ afterAll(async () => {
 
   await getConnection().close()
 
-  fs.readdir(directory, (err, files) => {
-    if (err) throw err
-
-    for (const file of files) {
-      fs.unlink(path.join(directory, file), err => {
-        if (err) throw err
-      })
-    }
-  })
+  await del(directory)
 })
 
 const restaurantData = {
@@ -79,7 +71,6 @@ dataTest.images = [
 
 const createRestaurant = () => request(app)
   .post('/restaurants')
-  .accept('application/json')
   .field('name', restaurantData.name)
   .field('street', restaurantData.address.street)
   .field('number', restaurantData.address.number)
@@ -197,7 +188,7 @@ describe('01', () => {
   const dataProduct: ProductRequestBody = {
     name: 'X-Tudo',
     price: 25.50,
-    description: 'Hamburger com ...',
+    category: 'Hamburger com ...',
     promotion_prices: [19.99, 15.99],
     promotion_descriptions: ['Lançamento', 'Super PROMO'],
     weekdays_start: [6, 1],
@@ -212,7 +203,7 @@ describe('01', () => {
       .post('/restaurants/2/products')
       .field('name', dataProduct.name)
       .field('price', dataProduct.price)
-      .field('description', dataProduct.description)
+      .field('category', dataProduct.category)
       .field('promotion_prices', dataProduct.promotion_prices)
       .field('promotion_descriptions', dataProduct.promotion_descriptions)
       .field('weekdays_start', dataProduct.weekdays_start)
@@ -228,7 +219,7 @@ describe('01', () => {
 
     expect(product.name).toBe(dataProduct.name)
     expect(parseFloat(product.price)).toBe(dataProduct.price)
-    expect(product.description).toBe(dataProduct.description)
+    expect(product.category).toBe(dataProduct.category)
     expect(parseFloat(product.promotions[0].price)).toBe(dataProduct.promotion_prices[0])
     expect(product.promotions[0].description).toBe(dataProduct.promotion_descriptions[0])
     expect(parseFloat(product.promotions[0].weekday_start)).toBe(dataProduct.weekdays_start[0])
