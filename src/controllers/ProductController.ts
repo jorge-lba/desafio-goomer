@@ -1,23 +1,19 @@
 /* eslint-disable camelcase */
 import { Request, Response, Express } from 'express'
 import { getRepository } from 'typeorm'
+
 import Product from '../models/Product'
 import ProductPromotion from '../models/ProductPromotion'
 import ProductImage from '../models/ProductImages'
 import productView from '../views/productView'
+import { formatManyImages } from '../utils/image'
+
 import {
   ProductRequestBody,
   Promotion,
   Image,
   DataProduct
 } from '../@types/TypesProducts'
-
-const formatImages = (images: Express.Multer.File[]): Image[]|undefined =>
-  images
-    ? images.map(image => ({
-      path: image.filename
-    }))
-    : undefined
 
 const relations = async (products: DataProduct[]) => {
   const productPromotionsRespository = getRepository<Promotion>(ProductPromotion)
@@ -88,7 +84,7 @@ export default {
 
     const requestImages = request.files as Express.Multer.File[]
 
-    const images = formatImages(requestImages)
+    const images = formatManyImages(requestImages)
 
     const promotions = weekdays_start?.map((weekday, index): Promotion => {
       return {

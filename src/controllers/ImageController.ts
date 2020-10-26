@@ -1,16 +1,14 @@
 import { Request, Response, Express } from 'express'
 import { getRepository, Repository } from 'typeorm'
-import { Image } from '../@types/TypesRestaurant'
+import path from 'path'
+import fs from 'fs'
+import { formatImage } from '../utils/image'
+
 import ProductImages from '../models/ProductImages'
 import RestaurantImages from '../models/RestaurantsImages'
 import imagesView from '../views/imagesView'
-import path from 'path'
-import fs from 'fs'
 
-const formatImages = (images: Express.Multer.File[]): Image[] =>
-  images?.map(image => ({
-    path: image.filename
-  }))
+import { Image } from '../@types/TypesRestaurant'
 
 const selectRepositoryImage = (option:string): Repository<Image> => {
   const models = {
@@ -52,7 +50,7 @@ export default {
 
   async create (request:Request, response:Response) {
     const requestImages = request.files as Express.Multer.File[]
-    const images = formatImages(requestImages)
+    const images = formatImage(requestImages)
     const id = parseInt(request.params.id)
     const option = request.url.split('/')[2] || 'restaurants'
 
@@ -85,7 +83,7 @@ export default {
 
     const requestImages = request.files as Express.Multer.File[]
 
-    const [dataImage] = formatImages(requestImages)
+    const [dataImage] = formatImage(requestImages)
 
     const option = request.url.split('/')[2] || 'restaurants'
 

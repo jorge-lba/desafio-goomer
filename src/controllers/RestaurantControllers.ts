@@ -3,6 +3,7 @@
 import { Request, Response, Express } from 'express'
 import { getRepository } from 'typeorm'
 import { formatWorkingHour, testScheduleFormat, formatWorkingHourRequest } from '../utils/hours'
+import { formatManyImages } from '../utils/image'
 
 import {
   RequestBody,
@@ -16,13 +17,6 @@ import Restaurant from '../models/Restaurant'
 import restaurantView from '../views/restaurantView'
 import RestaurantAddress from '../models/RestaurantAddress'
 import RestaurantWorkingHours from '../models/RestaurantWorkingHours'
-
-const formatImages = (images: Express.Multer.File[]): Image[]|undefined =>
-  images
-    ? images.map(image => ({
-      path: image.filename
-    }))
-    : undefined
 
 export default {
   async index (request:Request, response:Response) {
@@ -120,7 +114,7 @@ export default {
         message: 'Este horário não foi cadastrado. Verifique as informações e tente cadastra-lo novamente.'
       }))
 
-    const images = formatImages(requestImages)
+    const images = formatManyImages(requestImages)
 
     const restaurantRespository = getRepository<DataRestaurant>(Restaurant)
 
