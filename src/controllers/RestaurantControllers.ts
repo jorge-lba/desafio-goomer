@@ -2,58 +2,20 @@
 /* eslint-disable camelcase */
 import { Request, Response, Express } from 'express'
 import { getRepository } from 'typeorm'
-import Restaurant from '../models/Restaurant'
-import restaurantView from '../views/restaurantView'
+import { formatWorkingHour, testScheduleFormat, formatWorkingHourRequest } from '../utils/hours'
 
 import {
   RequestBody,
   Address,
   WorkingHours,
   Image,
-  DataRestaurant,
-  WorkingHoursRequest
+  DataRestaurant
 } from '../@types/TypesRestaurant'
+
+import Restaurant from '../models/Restaurant'
+import restaurantView from '../views/restaurantView'
 import RestaurantAddress from '../models/RestaurantAddress'
 import RestaurantWorkingHours from '../models/RestaurantWorkingHours'
-import console from 'console'
-
-const testScheduleFormat = (format:RegExp) => (schedule:string): boolean => format.test(schedule)
-
-const formatWorkingHour = (workingHours:WorkingHours) => {
-  let start_time = workingHours.opening_time
-  let end_time = workingHours.closing_time
-
-  const [start_hours, start_minutes] = start_time
-    .split(':').map(element => parseInt(element))
-
-  const [end_hours, end_minutes] = end_time
-    .split(':').map(element => parseInt(element))
-
-  let start = new Date()
-  start.setHours(start_hours, start_minutes)
-
-  let end = new Date()
-  end.setHours(end_hours, end_minutes)
-
-  if (start.getTime() > end.getTime()) {
-    [start, end] = [end, start];
-    [start_time, end_time] = [end_time, start_time]
-  }
-
-  const difference = (end.getTime() - start.getTime()) / 1000 / 60
-
-  if (difference < 15) {
-    end.setMinutes(end.getMinutes() + (15 - difference))
-    end_time = `${end.getHours()}:${end.getMinutes()}`
-  }
-
-  return {
-    weekday_start: workingHours.weekday_start,
-    weekday_end: workingHours.weekday_end,
-    opening_time: start_time,
-    closing_time: end_time
-  }
-}
 
 const formatImages = (images: Express.Multer.File[]): Image[]|undefined =>
   images
@@ -137,14 +99,12 @@ export default {
     const orderScheduleFormat = scheduleOpeningIsValid
       .map((schedule, index) => schedule && scheduleClosingIsValid[index])
 
-    console.log(orderScheduleFormat)
-
-    const workingHoursRequest = weekdays_start.map((_, index):WorkingHours => ({
-      weekday_start: weekdays_start[index],
-      weekday_end: weekdays_end[index],
-      opening_time: opening_times[index],
-      closing_time: closing_times[index]
-    }))
+    const workingHoursRequest = formatWorkingHourRequest({
+      weekdays_start,
+      weekdays_end,
+      opening_times,
+      closing_times
+    })
 
     const working_hours = workingHoursRequest
       .filter((workingHours, index): WorkingHours | undefined => {
@@ -159,8 +119,6 @@ export default {
         working_hour: workingHour,
         message: 'Este horário não foi cadastrado. Verifique as informações e tente cadastra-lo novamente.'
       }))
-
-    console.log(warnings)
 
     const images = formatImages(requestImages)
 
