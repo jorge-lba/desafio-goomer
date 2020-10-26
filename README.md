@@ -316,7 +316,7 @@ curl --request DELETE \
     - Diferente do .create o .update não faz a atualização em rodas as tabelas relacionadas ( Pesquisei na documentação e em outros locais e não achei nada que fizesse o mesmo efeito do .create), minha solução foi implementar uma funcionalidade que implementa a "mesma" funcionalidade do .create fazendo a atualização nas tabelas relacionadas.
 
   * __Tabela de Horários de Funcionamento :__
-    - Inicialmente optei por usar campos do tipo Date para cadastrar os horários de abertura e fechamento do estabelecimento, mas fazendo desta forma eu teria que usar mais recursos para fazer a comparação e depois o tratamento para apresentar os horários como foi dado o exemplo. Optei usar o campo com _string_ tornando mais fácil o tratamento(ao colocar em pratica percebi que não foi a melhor escolha[ ** ](#)).
+    - Inicialmente optei por usar campos do tipo Date para cadastrar os horários de abertura e fechamento do estabelecimento, mas fazendo desta forma eu teria que usar mais recursos para fazer a comparação e depois o tratamento para apresentar os horários como foi dado o exemplo. Optei usar o campo com _string_ tornando mais fácil o tratamento.
 
 ### Melhorias
 
