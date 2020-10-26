@@ -3,7 +3,7 @@
 interface ProductRequestBody {
   name: string,
   price: number,
-  description: string,
+  category: string,
   promotion_prices: number[],
   promotion_descriptions: string[],
   weekdays_start: number[],
@@ -35,7 +35,7 @@ interface DataProduct {
   restaurant_id?: number,
   name: string,
   price: number,
-  description: string,
+  category: string,
   promotions?: Promotion[]
   product_images: Image[]
 }

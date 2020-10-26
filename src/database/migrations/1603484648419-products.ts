@@ -24,7 +24,7 @@ export class products1603484648419 implements MigrationInterface {
           isNullable: false
         },
         {
-          name: 'description',
+          name: 'category',
           type: 'string'
         },
         {

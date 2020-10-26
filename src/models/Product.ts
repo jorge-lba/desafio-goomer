@@ -16,7 +16,7 @@ export default class Product {
   price: number
 
   @Column()
-  description: string
+  category: string
 
   @Column()
   restaurant_id: number

@@ -8,7 +8,7 @@ export default {
       id: product.id,
       name: product.name,
       price: product.price,
-      description: product.description,
+      category: product.category,
       promotions: product.promotions,
       restaurant_id: product.restaurant_id,
       product_images: imagesView.renderMany(product.product_images)

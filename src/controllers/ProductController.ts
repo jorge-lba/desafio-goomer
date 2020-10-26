@@ -76,7 +76,7 @@ export default {
     const {
       name,
       price,
-      description,
+      category,
       promotion_prices,
       promotion_descriptions,
       weekdays_start,
@@ -108,7 +108,7 @@ export default {
       restaurant_id,
       name,
       price,
-      description,
+      category,
       promotions: promotions,
       product_images: images
     })
@@ -136,7 +136,7 @@ export default {
           data: {
             name: dataProduct.name,
             price: dataProduct.price,
-            description: dataProduct.description
+            category: dataProduct.category
           }
         },
         {
