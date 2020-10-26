@@ -301,6 +301,7 @@ curl --request DELETE \
 ### Insomnia
 Para executar os testes usando o Insomnia entre [aqui](https://github.com/jorge-lba/desafio-goomer/tree/main/insomnia) e use o arquivo para importar as configurações.
 Você também pode utilizar o arquivo que foi baixado junto ao projeto.
+
 ---
 
 ### Desafios / Problemas
