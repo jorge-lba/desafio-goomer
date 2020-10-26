@@ -15,46 +15,45 @@ import {
 } from '../@types/TypesRestaurant'
 import RestaurantAddress from '../models/RestaurantAddress'
 import RestaurantWorkingHours from '../models/RestaurantWorkingHours'
+import console from 'console'
 
-const formatWorkHours = (weekdaysStart:WorkingHoursRequest):WorkingHours[]|undefined =>
-  weekdaysStart.weekdays_start
-    ? weekdaysStart.weekdays_start
-      .map((weekday, index) => {
-        let start_time = weekdaysStart.opening_times[index]
-        let end_time = weekdaysStart.closing_times[index]
+const testScheduleFormat = (format:RegExp) => (schedule:string): boolean => format.test(schedule)
 
-        const [start_hours, start_minutes] = start_time
-          .split(':').map(element => parseInt(element))
+const formatWorkingHour = (workingHours:WorkingHours) => {
+  let start_time = workingHours.opening_time
+  let end_time = workingHours.closing_time
 
-        const [end_hours, end_minutes] = end_time
-          .split(':').map(element => parseInt(element))
+  const [start_hours, start_minutes] = start_time
+    .split(':').map(element => parseInt(element))
 
-        let start = new Date()
-        start.setHours(start_hours, start_minutes)
+  const [end_hours, end_minutes] = end_time
+    .split(':').map(element => parseInt(element))
 
-        let end = new Date()
-        end.setHours(end_hours, end_minutes)
+  let start = new Date()
+  start.setHours(start_hours, start_minutes)
 
-        if (start.getTime() > end.getTime()) {
-          [start, end] = [end, start];
-          [start_time, end_time] = [end_time, start_time]
-        }
+  let end = new Date()
+  end.setHours(end_hours, end_minutes)
 
-        const difference = (end.getTime() - start.getTime()) / 1000 / 60
+  if (start.getTime() > end.getTime()) {
+    [start, end] = [end, start];
+    [start_time, end_time] = [end_time, start_time]
+  }
 
-        if (difference < 15) {
-          end.setMinutes(end.getMinutes() + (15 - difference))
-          end_time = `${end.getHours()}:${end.getMinutes()}`
-        }
+  const difference = (end.getTime() - start.getTime()) / 1000 / 60
 
-        return {
-          weekday_start: weekday,
-          weekday_end: weekdaysStart.weekdays_end[index],
-          opening_time: start_time,
-          closing_time: end_time
-        }
-      })
-    : undefined
+  if (difference < 15) {
+    end.setMinutes(end.getMinutes() + (15 - difference))
+    end_time = `${end.getHours()}:${end.getMinutes()}`
+  }
+
+  return {
+    weekday_start: workingHours.weekday_start,
+    weekday_end: workingHours.weekday_end,
+    opening_time: start_time,
+    closing_time: end_time
+  }
+}
 
 const formatImages = (images: Express.Multer.File[]): Image[]|undefined =>
   images
@@ -127,12 +126,41 @@ export default {
       zip_code
     }
 
-    const working_hours = formatWorkHours({
-      weekdays_start,
-      weekdays_end,
-      opening_times,
-      closing_times
-    })
+    const SCHEDULE_REG_EXP = /([0[0-9]|1[0-9]|2[0-3])(:)([0-5][0-9])/
+
+    const scheduleOpeningIsValid = opening_times
+      .map((schedule) => testScheduleFormat(SCHEDULE_REG_EXP)(schedule))
+
+    const scheduleClosingIsValid = closing_times
+      .map((schedule) => testScheduleFormat(SCHEDULE_REG_EXP)(schedule))
+
+    const orderScheduleFormat = scheduleOpeningIsValid
+      .map((schedule, index) => schedule && scheduleClosingIsValid[index])
+
+    console.log(orderScheduleFormat)
+
+    const workingHoursRequest = weekdays_start.map((_, index):WorkingHours => ({
+      weekday_start: weekdays_start[index],
+      weekday_end: weekdays_end[index],
+      opening_time: opening_times[index],
+      closing_time: closing_times[index]
+    }))
+
+    const working_hours = workingHoursRequest
+      .filter((workingHours, index): WorkingHours | undefined => {
+        if (workingHours && orderScheduleFormat[index]) {
+          return workingHours
+        }
+      }).map(working_hour => formatWorkingHour(working_hour))
+
+    const warnings = workingHoursRequest
+      .filter((_, index) => !orderScheduleFormat[index])
+      .map(workingHour => ({
+        working_hour: workingHour,
+        message: 'Este horário não foi cadastrado. Verifique as informações e tente cadastra-lo novamente.'
+      }))
+
+    console.log(warnings)
 
     const images = formatImages(requestImages)
 
@@ -149,7 +177,8 @@ export default {
 
     return response.status(201).json({
       status: 201,
-      data: restaurantView.render(restaurant)
+      data: restaurantView.render(restaurant),
+      warnings
     })
   },
 
